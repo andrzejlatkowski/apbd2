@@ -20,16 +20,16 @@ namespace LegacyApp
             
             
             // logika biznesowa
-            if (user.HasCreditLimit && user.CreditLimit < 500)
+            if (!IsValidCredit(user))
             {
                 return false;
             }
 
             // infrastruktura - zapis do bazy danych
-            UserDataAccess.AddUser(user);
+            SaveUser(user);
             return true;
         }
-
+        
         private void SetUserCredit(User user, Client client)
         {
             using (var userCreditService = new UserCreditService())
@@ -90,6 +90,14 @@ namespace LegacyApp
                 FirstName = firstName,
                 LastName = lastName
             };
+        }
+        private bool IsValidCredit(User user)
+        {
+            return !user.HasCreditLimit || user.CreditLimit >= 500;
+        }
+        private void SaveUser(User user)
+        {
+            UserDataAccess.AddUser(user);
         }
     }
 }
