@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using LegacyApp;
 
 namespace LegacyAppTests;
@@ -21,14 +22,21 @@ public class UserServiceTests
     public void AddUser_Should_Return_False_When_Missing_At_Sign_And_Dot_In_Email()
     {
         //Arrange
+        string firstName = "John";
+        string lastName = "Doe";
+        string email = "email";
+        DateTime dateOfBirth = new DateTime(1980, 1, 1);
+        int clientId = 1;
         var service = new UserService();
 
         //Act
-        var result = service.AddUser("John", "Doe", "kowalskiwppl", new DateTime(1980, 1, 1), 1);
+        var result = service.AddUser(firstName, lastName, email, dateOfBirth, clientId);
 
         //Assert
         Assert.Equal(false, result);
     }
+
+    
     
     [Fact]
     public void AddUser_Should_Return_False_When_Younger_Then_21_Years_Old()
